@@ -1,4 +1,9 @@
 version: "3"
+
+networks:
+  microns_network:
+    external: true
+
 services:
   app:
     cpus: 4
@@ -6,7 +11,34 @@ services:
     build:
       context: ../..
       dockerfile: ./.devcontainer/Dockerfile
+    # env_file: .env
     image: datajoint/microns_devcontainer:latest
+    # image: microns-phase3-nda-notebook:latest
     volumes:
       - ../..:/workspaces/microns_phase3_nda:cached
+    # volumes:
+    #   - ${EXTERNAL_NOTEBOOKS}:/notebooks/workspace
+    # network_mode: 'host'
+    networks:
+      - microns_network
+    depends_on:
+      - database
     command: bash -c "while sleep 1000; do :; done"
+
+    
+  # notebook:
+  #   # ... (your existing configuration)
+  #   build:
+  #     context: ../..
+  #     dockerfile: ./.devcontainer/Dockerfile
+  #   networks:
+  #     - microns_network
+  #   depends_on:
+  #     - database
+
+  database:
+    image: microns-phase3-nda-database:latest
+    command: --default-authentication-plugin=mysql_native_password --max-allowed-packet=1073741824
+    restart: always
+    networks:
+      - microns_network
