@@ -9,7 +9,12 @@ RUN \
     pip3 install seaborn ipykernel && \
     pip3 install git+https://github.com/datajoint/microns_phase3_nda.git
 
-ENV DJ_HOST db.datajoint.com
-ENV DJ_USER microns
-ENV DJ_PASS microns2023
-ENV DATABASE_PREFIX microns_
+# ENV DJ_HOST db.datajoint.com
+# ENV DJ_USER microns
+# ENV DJ_PASS microns2023
+# ENV DATABASE_PREFIX microns_
+ENV DJ_HOST database
+ENV DJ_USER root
+ENV DJ_PASS microns123
+# ENV DATABASE_PREFIX microns_
+# ENV EXTERNAL_NOTEBOOKS=./notebooks
